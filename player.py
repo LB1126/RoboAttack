@@ -27,14 +27,14 @@ class Player(pygame.sprite.Sprite):
         self.health_bar_red = pygame.Rect(0, 0, self.health_bar_width, self.health_bar_height)
         self.alive = True
         self.hurt_timer = 0
-        self.crate_ammo = 999999999999999
+        self.crate_ammo = 10
         self.crate_cooldown = 0
-        self.crate_cooldown_max = 1
+        self.crate_cooldown_max = 10
         self.explosive_crate_ammo = 10
         self.explosive_crate_cooldown = 0
         self.explosive_crate_cooldown_max = 10
         self.lives = 3
-        self.shot_type = 'magic'
+        self.shot_type = 'normal'
         self.special_ammo = 0
         self.score = 0
         self.sfx_shot = pygame.mixer.Sound('../assets/sfx/shot.wav')

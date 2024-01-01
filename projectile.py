@@ -81,13 +81,11 @@ class MagicWaterBalloon(WaterBalloon):
 		self.image = pygame.image.load('../assets/BalloonSmallMagic.png')
 		self.rect = self.image.get_rect()
 		self.image, self.rect = toolbox.getRotatedImage(self.image, self.rect, self.angle)
-		self.damage = 10
-		self.speed = 50
+		self.speed = 15
 		self.x_move = math.cos(self.angle_rads) * self.speed
 		self.y_move = -math.sin(self.angle_rads) * self.speed
 
 	def explode(self):
-		MagicWaterBalloon(self.screen, self.x, self.y, random.randint(0,360))
 		MagicWaterBalloon(self.screen, self.x, self.y, random.randint(0,360))
 		self.sfx_splash.play()
 		Explosion(self.screen, self.x, self.y, self.explosion_images, 5, 0, False)

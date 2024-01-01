@@ -9,7 +9,7 @@ class PowerUp(pygame.sprite.Sprite):
 		self.screen = screen
 		self.x = x
 		self.y = y
-		self.pick_power = random.randint(6, 6)
+		self.pick_power = random.randint(0, 6)
 		if self.pick_power == 0: # crate ammo
 			self.image = pygame.image.load('../assets/powerupCrate.png')
 			self.background_image = pygame.image.load('../assets/powerupBackgroundBlue.png')
