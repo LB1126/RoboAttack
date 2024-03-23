@@ -27,17 +27,17 @@ class Player(pygame.sprite.Sprite):
         self.health_bar_red = pygame.Rect(0, 0, self.health_bar_width, self.health_bar_height)
         self.alive = True
         self.hurt_timer = 0
-        self.crate_ammo = 100000000000000000000
+        self.crate_ammo = 10
         self.crate_cooldown = 0
-        self.crate_cooldown_max = 1
-        self.explosive_crate_ammo = 1100000000000000000000
+        self.crate_cooldown_max = 10
+        self.explosive_crate_ammo = 10
         self.explosive_crate_cooldown = 0
-        self.explosive_crate_cooldown_max = 1
+        self.explosive_crate_cooldown_max = 10
         self.lives = 3
         self.shot_type = 'normal'
         self.magic_ammo = 75
         self.split_ammo = 40
-        self.stream_ammo = 3000000000000000000000
+        self.stream_ammo = 300
         self.burst_ammo = 45
         self.score = 0
         self.sfx_shot = pygame.mixer.Sound('../assets/sfx/shot.wav')
@@ -182,7 +182,7 @@ class Player(pygame.sprite.Sprite):
 
     def place_crate(self):
         if self.alive and self.crate_ammo > 0 and self.crate_cooldown <= 0:
-            #self.sfx_place.play()
+            self.sfx_place.play()
             Crate(self.screen, self.x+5, self.y-5, self)
             self.crate_ammo -= 1
             self.crate_cooldown = self.crate_cooldown_max
