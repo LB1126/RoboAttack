@@ -22,7 +22,7 @@ class WaterBalloon(pygame.sprite.Sprite):
 		self.rect = self.image.get_rect()
 		self.rect.center = (self.x, self.y)
 		self.image, self.rect = toolbox.getRotatedImage(self.image, self.rect, self.angle)
-		self.speed = 10
+		self.speed = 12
 		self.angle_rads = math.radians(self.angle)
 		self.x_move = math.cos(self.angle_rads) * self.speed
 		self.y_move = -math.sin(self.angle_rads) * self.speed
@@ -56,6 +56,7 @@ class WaterDroplet(WaterBalloon):
 		self.rect = self.image.get_rect()
 		self.image, self.rect = toolbox.getRotatedImage(self.image, self.rect, self.angle)
 		self.damage = 3
+		self.speed = 20
 
 class ExplosiveWaterBalloon(WaterBalloon):
 	def __init__(self, screen, x, y, angle):
@@ -68,22 +69,25 @@ class ExplosiveWaterBalloon(WaterBalloon):
 		self.explosion_images.append(pygame.image.load('../assets/SplashLarge2.png'))
 		self.explosion_images.append(pygame.image.load('../assets/SplashLarge3.png'))
 		self.sfx_splash = pygame.mixer.Sound('../assets/sfx/splash-heavy.wav')
+		self.speed = 15
+		self.x_move = math.cos(self.angle_rads) * self.speed
+		self.y_move = -math.sin(self.angle_rads) * self.speed
 
 	def explode(self):
 		self.sfx_splash.play()
-		Explosion(self.screen, self.x, self.y, self.explosion_images, 5, 4, False)
+		Explosion(self.screen, self.x, self.y, self.explosion_images, 5, 0, False)
 		self.kill()
 
 class MagicWaterBalloon(WaterBalloon):
 	def __init__(self, screen, x, y, angle):
 		WaterBalloon.__init__(self, screen, x, y, angle)
 		self.image = pygame.image.load('../assets/BalloonSmallMagic.png')
-		self.image = pygame.image.load('../assets/BalloonSmallMagic.png')
 		self.rect = self.image.get_rect()
 		self.image, self.rect = toolbox.getRotatedImage(self.image, self.rect, self.angle)
-		self.speed = 15
+		self.speed = 12
 		self.x_move = math.cos(self.angle_rads) * self.speed
 		self.y_move = -math.sin(self.angle_rads) * self.speed
+		self.damage = 5
 
 	def explode(self):
 		MagicWaterBalloon(self.screen, self.x, self.y, random.randint(0,360))

@@ -9,12 +9,12 @@ class PowerUp(pygame.sprite.Sprite):
 		self.screen = screen
 		self.x = x
 		self.y = y
-		self.pick_power = random.randint(0, 6)
+		self.pick_power = random.randint(1, 1)
 		if self.pick_power == 0: # crate ammo
 			self.image = pygame.image.load('../assets/powerupCrate.png')
 			self.background_image = pygame.image.load('../assets/powerupBackgroundBlue.png')
 			self.power_type = 'crateammo'
-		elif self.pick_power == 1: # explosive ammo
+		elif self.pick_power == 5: # explosive ammo
 			self.image = pygame.image.load('../assets/powerupExplosiveBarrel.png')
 			self.background_image = pygame.image.load('../assets/powerupBackgroundBlue.png')
 			self.power_type = 'explosiveammo'
@@ -22,7 +22,7 @@ class PowerUp(pygame.sprite.Sprite):
 			self.image = pygame.image.load('../assets/powerupSplit.png')
 			self.background_image = pygame.image.load('../assets/powerupBackgroundRed.png')
 			self.power_type = 'split'
-		elif self.pick_power == 5: # stream
+		elif self.pick_power == 3: # stream
 			self.image = pygame.image.load('../assets/powerupDrop.png')
 			self.background_image = pygame.image.load('../assets/powerupBackgroundRed.png')
 			self.power_type = 'stream'
@@ -30,13 +30,13 @@ class PowerUp(pygame.sprite.Sprite):
 			self.image = pygame.image.load('../assets/SplashSmall1.png')
 			self.background_image = pygame.image.load('../assets/powerupBackgroundRed.png')
 			self.power_type = 'burst'
-		elif self.pick_power == 3: # health
+		elif self.pick_power == 1: # health
 			self.image = pygame.image.load('../assets/heart.png')
-			self.background_image = pygame.image.load('../assets/powerupBackgroundBlue.png')
+			self.background_image = pygame.image.load('../assets/powerupBackgroundGreen.png')
 			self.power_type = 'health'
-		elif self.pick_power == 6: # health
+		elif self.pick_power == 6: # magic
 			self.image = pygame.image.load('../assets/BalloonSmallMagic.png')
-			self.background_image = pygame.image.load('../assets/powerupBackgroundRed.png')
+			self.background_image = pygame.image.load('../assets/powerupBackgroundGreen.png')
 			self.power_type = 'magic'
 		self.rect = self.image.get_rect()
 		self.rect.center = (self.x, self.y)

@@ -15,11 +15,11 @@ class Player(pygame.sprite.Sprite):
         self.image_defeated =  pygame.image.load('../assets/Enemy_01.png')
         self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)
-        self.speed = 8
+        self.speed = 3
         self.angle = 0
         self.shoot_cooldown = 0
         self.shoot_cooldown_max = 7.5
-        self.health_max = 100 
+        self.health_max = 100
         self.health = self.health_max
         self.health_bar_width = self.image.get_width()
         self.health_bar_height = 8
@@ -27,15 +27,18 @@ class Player(pygame.sprite.Sprite):
         self.health_bar_red = pygame.Rect(0, 0, self.health_bar_width, self.health_bar_height)
         self.alive = True
         self.hurt_timer = 0
-        self.crate_ammo = 10
+        self.crate_ammo = 100000000000000000000
         self.crate_cooldown = 0
-        self.crate_cooldown_max = 10
-        self.explosive_crate_ammo = 10
+        self.crate_cooldown_max = 1
+        self.explosive_crate_ammo = 1100000000000000000000
         self.explosive_crate_cooldown = 0
-        self.explosive_crate_cooldown_max = 10
+        self.explosive_crate_cooldown_max = 1
         self.lives = 3
         self.shot_type = 'normal'
-        self.special_ammo = 0
+        self.magic_ammo = 75
+        self.split_ammo = 40
+        self.stream_ammo = 3000000000000000000000
+        self.burst_ammo = 45
         self.score = 0
         self.sfx_shot = pygame.mixer.Sound('../assets/sfx/shot.wav')
         self.sfx_place = pygame.mixer.Sound('../assets/sfx/bump.wav')
@@ -122,30 +125,47 @@ class Player(pygame.sprite.Sprite):
     def shoot(self):
         if self.shoot_cooldown <= 0 and self.alive:
             self.sfx_shot.play()
+            keys = pygame.key.get_pressed()
+            # deals with the key movement
+            if keys[pygame.K_n]:
+                self.shot_type = 'normal'
+            if keys[pygame.K_m]:
+                self.shot_type = 'magic'
+            if keys[pygame.K_s]:
+                self.shot_type = 'split'
+            if keys[pygame.K_t]:
+                self.shot_type = 'stream'
+            if keys[pygame.K_b]:
+                self.shot_type = 'burst' 
             if self.shot_type == 'normal':
-                self.speed = 8
+                self.shoot_cooldown_max = 7.5
                 projectile.WaterBalloon(self.screen, self.x, self.y, self.angle)
             elif self.shot_type == 'split':
-                projectile.WaterBalloon(self.screen, self.x, self.y, self.angle - 15)
-                projectile.WaterBalloon(self.screen, self.x, self.y, self.angle)
-                projectile.WaterBalloon(self.screen, self.x, self.y, self.angle + 15)
-                self.speed = 8
-                self.special_ammo -= 1
+                if self.split_ammo > 0:
+                    projectile.WaterBalloon(self.screen, self.x, self.y, self.angle - 15)
+                    projectile.WaterBalloon(self.screen, self.x, self.y, self.angle)
+                    projectile.WaterBalloon(self.screen, self.x, self.y, self.angle + 15)
+                    self.special_ammo = 40
+                    self.speed = 20
+                    self.split_ammo -= 1
+                    self.shoot_cooldown_max = 7.5
             elif self.shot_type == 'stream':
-                projectile.WaterDroplet(self.screen, self.x, self.y, self.angle)
-                self.speed = 8
-                self.special_ammo -= 1
+                if self.stream_ammo > 0:
+                    projectile.WaterDroplet(self.screen, self.x, self.y, self.angle)
+                    self.speed = 8
+                    self.stream_ammo -= 1
+                    self.shoot_cooldown_max = 3
             elif self.shot_type == 'burst':
-                projectile.ExplosiveWaterBalloon(self.screen, self.x, self.y, self.angle)
-                self.speed = 8
-                self.special_ammo -= 1
+                if self.burst_ammo > 0:
+                    projectile.ExplosiveWaterBalloon(self.screen, self.x, self.y, self.angle)
+                    self.burst_ammo -= 1
+                    self.shoot_cooldown_max = 22.5
             elif self.shot_type == 'magic':
-                projectile.MagicWaterBalloon(self.screen, self.x, self.y, self.angle)
-                self.special_ammo = 999
-                self.shoot_cooldown_max = 3
+                if self.magic_ammo > 0:
+                    projectile.MagicWaterBalloon(self.screen, self.x, self.y, self.angle)
+                    self.magic_ammo -= 1
+                    self.shoot_cooldown_max = 7.5
             self.shoot_cooldown = self.shoot_cooldown_max
-            if self.special_ammo <= 0:
-                self.power_up('normal')
 
 
     # Get hit function(makes the player take damage)
@@ -162,14 +182,14 @@ class Player(pygame.sprite.Sprite):
 
     def place_crate(self):
         if self.alive and self.crate_ammo > 0 and self.crate_cooldown <= 0:
-            self.sfx_place.play()
+            #self.sfx_place.play()
             Crate(self.screen, self.x+5, self.y-5, self)
             self.crate_ammo -= 1
             self.crate_cooldown = self.crate_cooldown_max
 
     def place_explosive_crate(self):
         if self.alive and self.explosive_crate_ammo > 0 and self.explosive_crate_cooldown <= 0:
-            self.sfx_place.play()
+            #self.sfx_place.play()
             ExplosiveCrate(self.screen, self.x+5, self.y-5, self)
             self.explosive_crate_ammo -= 1
             self.explosive_crate_cooldown = self.explosive_crate_cooldown_max
@@ -184,7 +204,7 @@ class Player(pygame.sprite.Sprite):
            self.get_score(10)
         elif power_type == 'split':
             self.shot_type = 'split'
-            self.special_ammo = 40
+            self.split_ammo += 5
             self.shoot_cooldown_max = 15
             self.get_score(20)
         elif power_type == 'normal':
@@ -192,12 +212,12 @@ class Player(pygame.sprite.Sprite):
             self.shoot_cooldown_max = 7.5
         elif power_type == 'stream':
             self.shot_type = 'stream'
-            self.special_ammo = 300
-            self.shoot_cooldown_max = 3
+            self.stream_ammo += 25
+            self.shoot_cooldown_max = 1
             self.get_score(20)
         elif power_type == 'burst':
             self.shot_type = 'burst'
-            self.special_ammo = 45
+            self.burst_ammo += 10
             self.shoot_cooldown_max = 22.5
             self.get_score(20)
         elif power_type == 'health':
@@ -209,9 +229,8 @@ class Player(pygame.sprite.Sprite):
         elif power_type == 'magic':
             self.shot_type = 'magic'
             self.speed = 12
-            self.shoot_cooldown_max = 3
+            self.magic_ammo += 10
             self.health += 10
-            self.speed_timer = 400
             self.get_score(20)
 
     def get_score(self, score):

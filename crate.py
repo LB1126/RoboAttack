@@ -65,7 +65,7 @@ class ExplosiveCrate(Crate):
 		self.hurt_timer = 5
 		if self.health <= 0:
 			self.sfx_break.play()
-			Explosion(self.screen, self.x, self.y, self.explosion_images, 7, 4, True)
+			Explosion(self.screen, self.x, self.y, self.explosion_images, 7, 99, False)
 			self.health = 999999
 			self.kill()
 			

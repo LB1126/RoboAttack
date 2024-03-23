@@ -31,12 +31,12 @@ Player.containers = player_group
 WaterBalloon.containers = projectiles_group
 Enemy.containers = enemies_group
 Crate.containers = crates_group
-Explosion.containers = explosions_group
+Explosion.contaibners = explosions_group
 PowerUp.containers = powerups_group
 
 enemy_spawn_timer_max = 100
 enemy_spawn_timer = 0
-enemy_speedup_timer_max = 400
+enemy_speedup_timer_max = 0
 enemy_speedup_timer = enemy_speedup_timer_max
 speed = 1
 
@@ -50,14 +50,14 @@ def StartGame():
     global enemy_spawn_timer_max
     global enemy_spawn_timer
     global enemy_speedup_timer
-    enemy_spawn_timer_max = 100
+    enemy_spawn_timer_max = 1
     enemy_spawn_timer = 0
     enemy_speedup_timer = enemy_speedup_timer_max
     enemy_speedup_timer
     game_started = True
     hud.state = 'ingame'
     player.__init__(screen, game_width/2, game_height/2)
-    for i in range(0, 15):
+    for i in range(0, 0):
         Crate(screen, random.randint(50,  game_width), random.randint(50, game_height), player)
         ExplosiveCrate(screen, random.randint(50,  game_width), random.randint(50, game_height), player)
 
@@ -149,6 +149,6 @@ while running:
     hud.update(player)
     # Tell pygame to update the screen       
     pygame.display.flip()
-    clock.tick(40)
+    clock.tick(40.66)
     pygame.display.set_caption("ATTACK OF THE ROBOTS fps: " + str(clock.get_fps()))
 

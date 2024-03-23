@@ -47,16 +47,20 @@ class hud():
 			tile_x += self.explosive_crate_ammo_tile.width
 			# figure put which icon to use for speacial ammo
 			if self.player.shot_type == 'normal':
+				self.balloon_ammo_tile.update(tile_x, self.screen.get_height(), 0)
 				self.balloon_ammo_tile.icon = self.normal_shot_icon
 			elif self.player.shot_type == 'split':
+				self.balloon_ammo_tile.update(tile_x, self.screen.get_height(), self.player.split_ammo)
 				self.balloon_ammo_tile.icon = self.split_shot_icon
 			elif self.player.shot_type == 'stream':
+				self.balloon_ammo_tile.update(tile_x, self.screen.get_height(), self.player.stream_ammo)
 				self.balloon_ammo_tile.icon = self.stream_shot_icon
 			elif self.player.shot_type == 'burst':
+				self.balloon_ammo_tile.update(tile_x, self.screen.get_height(), self.player.burst_ammo)
 				self.balloon_ammo_tile.icon = self.burst_shot_icon
 			elif self.player.shot_type == 'magic':
 				self.balloon_ammo_tile.icon = self.magic_shot_icon
-			self.balloon_ammo_tile.update(tile_x, self.screen.get_height(), self.player.special_ammo)
+				self.balloon_ammo_tile.update(tile_x, self.screen.get_height(), self.player.magic_ammo)
 		elif self.state == 'mainmenu':
 			title_x, title_y = toolbox.centeringCoords(self.title_image, self.screen)
 			self.screen.blit(self.title_image, (title_x, title_y - 40))

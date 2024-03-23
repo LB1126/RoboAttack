@@ -3,7 +3,7 @@ import pygame
 class Explosion(pygame.sprite.Sprite):
 	def __init__(self, screen, x, y, images, duration, damage, damage_player):
 		# Make explosion inherit Sprite
-		pygame.sprite.Sprite.__init__(self, self.containers)
+		pygame.sprite.Sprite.__init__(self, self.contaibners)
 		# Set up explosion variables
 		self.screen = screen
 		self.x = x
